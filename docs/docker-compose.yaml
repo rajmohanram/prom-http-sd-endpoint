@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  prom-http-sd-endpoint:
+    hostname: prom-http-sd-endpoint
+    container_name: prom-http-sd-endpoint
+    image: rajmor/prom-http-sd-endpoint:0.1
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./targets.yaml:/app/config/targets.yaml
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
